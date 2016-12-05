@@ -9,9 +9,9 @@ RUN apt-get update && apt-get install -y --force-yes \
 	    android-tools-adb android-tools-fastboot \
 	    autoconf bc bison cscope curl flex gdisk git libc6:i386 libfdt-dev \
 	    libftdi-dev libglib2.0-dev libhidapi-dev libncurses5-dev \
-	    libpixman-1-dev libstdc++6:i386 libtool libz1:i386 mtools netcat \
-	    python python-crypto python-serial python-wand tmux unzip uuid-dev \
-	    xdg-utils xterm xz-utils vim zlib1g-dev
+	    libpixman-1-dev libstdc++6:i386 libtool libz1:i386 make mtools \
+	    netcat python python-crypto python-serial python-wand tmux unzip \
+	    uuid-dev xdg-utils xterm xz-utils vim zlib1g-dev
 
 # Download repo
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo
