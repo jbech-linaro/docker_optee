@@ -13,16 +13,18 @@ It will take ~30 minutes or so to download everything, this is highly dependant
 on the speed to your ISP. Note that when repo are synching, it looks like
 nothing happens, but indeed it does, so just relax and let it work until done.
 
-When all is done, you have a Docker image based on Ubuntu containing OP-TEE with
-all source code and toolchains necessary to build and test it out. Since the
-test spawns new `xterm` windows, we need to provide some extra parameters when
-running the Docker container. To run it, simply type:
+When all is done, you'll have a Docker image based on Ubuntu containing OP-TEE
+with all source code and toolchains necessary to build and test it out. Since
+the test spawns new `xterm` windows, we need to provide some extra parameters
+when running the Docker container. To run it, simply type:
 
 ```bash
 $ docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix optee
 ```
-A note here, this isn't secure practice, so beware of where (network and
-computer) you are doing this.
+
+In case it still doesn't work, you can grant X11 access to anyone by running `$
+xhost +`, however, be **really** careful when doing so since, you basically open
+up to open any X11 window on you machine.
 
 If you detach from that container and later on need to attach to it again, you
 will need to type:
