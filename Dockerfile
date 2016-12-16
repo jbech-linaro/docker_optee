@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 MAINTAINER Joakim Bech (joakim.bech@linaro.org)
 
 # This is needed on later Ubuntu distros to be able to install the i386
