@@ -62,6 +62,6 @@ RUN /bin/repo init -u https://github.com/OP-TEE/manifest.git
 RUN /bin/repo sync -j3
 
 WORKDIR /home/optee/qemu-optee/build
-RUN make toolchains
+RUN make toolchains -j3
 
 #RUN make -j4 all run
