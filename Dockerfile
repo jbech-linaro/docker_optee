@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --force-yes \
 	    autoconf \
 	    bc \
 	    bison \
+	    ccache \
 	    cscope \
 	    curl \
 	    flex \
@@ -46,22 +47,27 @@ RUN apt-get update && apt-get install -y --force-yes \
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo
 RUN chmod a+x /bin/repo
 
-RUN useradd --create-home --shell /bin/bash optee
+# Exchange 1001 to the user id of the current user
+RUN useradd --shell /bin/bash -u 1001 -o -c "" -m optee
 RUN echo 'optee:optee' | chpasswd
 
+RUN mkdir -p /home/optee/qemu-optee
+
+ADD launch_optee.sh /home/optee/qemu-optee/launch_optee.sh
+RUN chown -R optee:optee /home/optee/qemu-optee
+
 USER optee
+
+RUN export USE_CCACHE=1
+RUN export CCACHE_DIR=~/.ccache
+RUN export CCACHE_UMASK=002
 
 # Configure git so repo won't complain later on
 RUN git config --global user.name "OP-TEE"
 RUN git config --global user.email "op-tee@linaro.org"
 
-RUN mkdir -p /home/optee/qemu-optee
 WORKDIR /home/optee/qemu-optee
 
-RUN /bin/repo init -u https://github.com/OP-TEE/manifest.git
-RUN /bin/repo sync -j3
+RUN chmod a+x launch_optee.sh
 
-WORKDIR /home/optee/qemu-optee/build
-RUN make toolchains -j3
-
-#RUN make -j4 all run
+WORKDIR /home/optee/qemu-optee
