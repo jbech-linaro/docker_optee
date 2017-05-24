@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:14.04
 MAINTAINER Joakim Bech (joakim.bech@linaro.org)
 
 # This is needed on later Ubuntu distros to be able to install the i386
@@ -9,14 +9,20 @@ RUN apt-get update && apt-get install -y --force-yes \
 	    android-tools-adb \
 	    android-tools-fastboot \
 	    autoconf \
+	    automake \
 	    bc \
 	    bison \
+	    build-essential \
 	    ccache \
 	    cscope \
 	    curl \
+	    device-tree-compiler \
 	    flex \
+	    ftp-upload \
 	    gdisk \
 	    git \
+	    iasl \
+	    libattr1-dev \
 	    libc6:i386 \
 	    libfdt-dev \
 	    libftdi-dev \
@@ -24,6 +30,7 @@ RUN apt-get update && apt-get install -y --force-yes \
 	    libhidapi-dev \
 	    libncurses5-dev \
 	    libpixman-1-dev \
+	    libssl-dev \
 	    libstdc++6:i386 \
 	    libtool \
 	    libz1:i386 \
