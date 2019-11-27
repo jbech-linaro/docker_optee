@@ -5,7 +5,11 @@ MAINTAINER Joakim Bech (joakim.bech@linaro.org)
 # packages.
 RUN dpkg --add-architecture i386
 
-RUN apt-get update && apt-get install -y --force-yes \
+ENV TZ=Europe/Stockholm
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get update && apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-packages install \
 	android-tools-adb \
 	android-tools-fastboot \
 	autoconf \
@@ -48,7 +52,13 @@ RUN apt-get update && apt-get install -y --force-yes \
 	xdg-utils \
 	xterm \
 	xz-utils \
-	zlib1g-dev
+	zlib1g-dev \
+	# extra for Docker only \
+	curl \
+	cpio \
+	git \
+	python \
+	wget
 
 # Download repo
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo
