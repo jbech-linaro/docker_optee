@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 MAINTAINER Joakim Bech (joakim.bech@linaro.org)
 
 # This is needed on later Ubuntu distros to be able to install the i386
@@ -42,8 +42,8 @@ RUN apt-get update && apt-get -y --allow-downgrades --allow-remove-essential --a
 	make \
 	mtools \
 	netcat \
+	python3-pip \
 	python3-crypto \
-	python3-pycryptodome \
 	python3-pyelftools \
 	python3-serial \
 	rsync \
@@ -59,6 +59,9 @@ RUN apt-get update && apt-get -y --allow-downgrades --allow-remove-essential --a
 	git \
 	python \
 	wget
+
+RUN python3 -m pip install --user pycryptodome
+#RUN python3 -m pip install --upgrade pip
 
 # Download repo
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo
