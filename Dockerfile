@@ -1,15 +1,17 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 MAINTAINER Joakim Bech (joakim.bech@linaro.org)
 
-# This is needed on later Ubuntu distros to be able to install the i386
-# packages.
-RUN dpkg --add-architecture i386
+ENV DEBIAN_FRONTEND noninteractive
 
 ENV TZ=Europe/Stockholm
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get update && apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-packages install \
+RUN apt-get update
+
+RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-packages install apt-utils
+
+RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-packages install \
 	android-tools-adb \
 	android-tools-fastboot \
 	autoconf \
@@ -27,7 +29,6 @@ RUN apt-get update && apt-get -y --allow-downgrades --allow-remove-essential --a
 	gdisk \
 	iasl \
 	libattr1-dev \
-	libc6:i386 \
 	libcap-dev \
 	libfdt-dev \
 	libftdi-dev \
@@ -36,9 +37,7 @@ RUN apt-get update && apt-get -y --allow-downgrades --allow-remove-essential --a
 	libncurses5-dev \
 	libpixman-1-dev \
 	libssl-dev \
-	libstdc++6:i386 \
 	libtool \
-	libz1:i386 \
 	make \
 	mtools \
 	netcat \
@@ -60,15 +59,12 @@ RUN apt-get update && apt-get -y --allow-downgrades --allow-remove-essential --a
 	python \
 	wget
 
-RUN python3 -m pip install --user pycryptodome
-#RUN python3 -m pip install --upgrade pip
-
 # Download repo
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo
 RUN chmod a+x /bin/repo
 
-# Exchange 1001 to the user id of the current user
-RUN useradd --shell /bin/bash -u 1001 -o -c "" -m optee
+# Exchange 1000 to the user id of the current user
+RUN useradd --shell /bin/bash -u 1000 -o -c "" -m optee
 RUN echo 'optee:optee' | chpasswd
 
 RUN mkdir -p /home/optee/qemu-optee
@@ -76,17 +72,32 @@ RUN mkdir -p /home/optee/qemu-optee
 ADD launch_optee.sh /home/optee/qemu-optee/launch_optee.sh
 RUN chown -R optee:optee /home/optee/qemu-optee
 
+# Set the locale
+RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-packages install locales
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 USER optee
 
 RUN export USE_CCACHE=1
 RUN export CCACHE_DIR=~/.ccache
 RUN export CCACHE_UMASK=002
+RUN export BR2_DL_DIR=~/buildroot_dl
 
 # Configure git so repo won't complain later on
 RUN git config --global user.name "OP-TEE"
 RUN git config --global user.email "op-tee@linaro.org"
 
+RUN export TERM=rxvt-256color
+
 WORKDIR /home/optee/qemu-optee
+
+# Do this in the users environment
+RUN python3 -m pip install --user pycryptodome
 
 RUN chmod a+x launch_optee.sh
 
