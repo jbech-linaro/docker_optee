@@ -86,6 +86,8 @@ USER optee
 RUN export USE_CCACHE=1
 RUN export CCACHE_DIR=~/.ccache
 RUN export CCACHE_UMASK=002
+
+RUN mkdir -p /home/optee/buildroot_dl
 RUN export BR2_DL_DIR=~/buildroot_dl
 
 # Configure git so repo won't complain later on
