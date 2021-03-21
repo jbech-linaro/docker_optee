@@ -3,9 +3,16 @@ MAINTAINER Joakim Bech (joakim.bech@linaro.org)
 
 # This is needed on later Ubuntu distros to be able to install the i386
 # packages.
-RUN dpkg --add-architecture i386
+# RUN dpkg --add-architecture i386
 
-RUN apt-get update && apt-get install -y --force-yes \
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install -y --no-install-recommends tzdata \
+    && rm -rf /var/lib/apt/lists/*
+RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && dpkg-reconfigure --frontend noninteractive tzdata
+
+
+RUN  apt update && apt install -y  \
 	    android-tools-adb \
 	    android-tools-fastboot \
 	    autoconf \
@@ -16,23 +23,22 @@ RUN apt-get update && apt-get install -y --force-yes \
 	    flex \
 	    gdisk \
 	    git \
-	    libc6:i386 \
 	    libfdt-dev \
 	    libftdi-dev \
 	    libglib2.0-dev \
 	    libhidapi-dev \
 	    libncurses5-dev \
 	    libpixman-1-dev \
-	    libstdc++6:i386 \
 	    libtool \
-	    libz1:i386 \
 	    make \
 	    mtools \
 	    netcat \
 	    python \
-	    python-crypto \
-	    python-serial \
-	    python-wand \
+	    python3-crypto \
+	    python3-pycryptodome \
+	    python3-serial \
+	    python3-wand \
+	    python3-pyelftools \
 	    tmux \
 	    unzip \
 	    uuid-dev \
@@ -40,7 +46,14 @@ RUN apt-get update && apt-get install -y --force-yes \
 	    xterm \
 	    xz-utils \
 	    vim \
-	    zlib1g-dev
+	    zlib1g-dev \
+	    g++ \
+	    rsync \
+	    libssl-dev \
+	    wget \
+	    pkg-config \
+	    cpio \
+	    meson
 
 # Download repo
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo
@@ -48,6 +61,7 @@ RUN chmod a+x /bin/repo
 
 RUN useradd --create-home --shell /bin/bash optee
 RUN echo 'optee:optee' | chpasswd
+RUN echo 'root:optee*' | chpasswd
 
 USER optee
 
@@ -58,7 +72,7 @@ RUN git config --global user.email "op-tee@linaro.org"
 RUN mkdir -p /home/optee/qemu-optee
 WORKDIR /home/optee/qemu-optee
 
-RUN /bin/repo init -u https://github.com/OP-TEE/manifest.git
+RUN sh -c "echo y | /bin/repo init -u https://github.com/OP-TEE/manifest.git"
 RUN /bin/repo sync -j3
 
 WORKDIR /home/optee/qemu-optee/build
