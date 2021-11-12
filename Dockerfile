@@ -5,10 +5,16 @@ MAINTAINER Joakim Bech (joakim.bech@linaro.org)
 # packages.
 # RUN dpkg --add-architecture i386
 
+# Default Timezone
+ARG ARG_TIMEZONE=Asia/Shanghai
+#Set Timezone from Build Argument as ENV for runtime
+ENV ENV_TIMEZONE ${ARG_TIMEZONE}
 ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt update && apt install -y --no-install-recommends tzdata \
     && rm -rf /var/lib/apt/lists/*
-RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+RUN echo '${ENV_TIMEZONE}' > /etc/timezone \
+    && ln -fs /usr/share/zoneinfo/${ENV_TIMEZONE} /etc/localtime \
     && dpkg-reconfigure --frontend noninteractive tzdata
 
 
@@ -26,7 +32,9 @@ RUN  apt update && apt install -y  \
 	    libfdt-dev \
 	    libftdi-dev \
 	    libglib2.0-dev \
+	    libgmp3-dev \
 	    libhidapi-dev \
+	    libmpc-dev \
 	    libncurses5-dev \
 	    libpixman-1-dev \
 	    libtool \
