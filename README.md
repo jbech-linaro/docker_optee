@@ -19,7 +19,10 @@ the test spawns new `xterm` windows, we need to provide some extra parameters
 when running the Docker container. To run it, simply type:
 
 ```bash
-$ docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix optee
+$ docker run -it -e DISPLAY=$DISPLAY \
+      --build-arg ARG_TIMEZONE=$(cat /etc/timezone) \
+      -v /tmp/.X11-unix:/tmp/.X11-unix \
+      optee
 ```
 
 In case it still doesn't work, you can grant X11 access to anyone by running `$
