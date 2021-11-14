@@ -7,7 +7,7 @@ desktop. The steps to create the Docker image is as follows:
 ```bash
 $ git clone <this_repository>
 $ cd <this_repository>
-$ docker build -t optee .
+$ docker build --build-arg ARG_TIMEZONE=$(cat /etc/timezone) -t optee .
 ```
 It will take ~30 minutes or so to download everything, this is highly dependant
 on the speed to your ISP. Note that when repo are synching, it looks like
@@ -20,7 +20,6 @@ when running the Docker container. To run it, simply type:
 
 ```bash
 $ docker run -it -e DISPLAY=$DISPLAY \
-      --build-arg ARG_TIMEZONE=$(cat /etc/timezone) \
       -v /tmp/.X11-unix:/tmp/.X11-unix \
       optee
 ```
