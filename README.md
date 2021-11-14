@@ -21,6 +21,7 @@ when running the Docker container. To run it, simply type:
 ```bash
 $ docker run -it -e DISPLAY=$DISPLAY \
       -v /tmp/.X11-unix:/tmp/.X11-unix \
+      --net=host \
       optee
 ```
 
