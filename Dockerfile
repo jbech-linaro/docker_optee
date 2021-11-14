@@ -32,6 +32,7 @@ RUN  apt update && apt install -y  \
 	    libfdt-dev \
 	    libftdi-dev \
 	    libglib2.0-dev \
+		libgmp-dev \
 	    libhidapi-dev \
 	    libncurses5-dev \
 	    libpixman-1-dev \
