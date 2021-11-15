@@ -32,8 +32,9 @@ RUN  apt update && apt install -y  \
 	    libfdt-dev \
 	    libftdi-dev \
 	    libglib2.0-dev \
-		libgmp-dev \
+	    libgmp3-dev \
 	    libhidapi-dev \
+	    libmpc-dev \
 	    libncurses5-dev \
 	    libpixman-1-dev \
 	    libtool \
