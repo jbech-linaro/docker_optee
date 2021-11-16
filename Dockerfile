@@ -53,7 +53,11 @@ RUN  apt update && apt install -y  \
 	    wget \
 	    pkg-config \
 	    cpio \
-	    meson
+	    meson \
+	    libgmp3-dev \
+	    libmpc-dev \
+	    iasl \
+	    python3-cryptography
 
 # Download repo
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /bin/repo
