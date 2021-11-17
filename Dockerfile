@@ -33,7 +33,9 @@ RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-p
 	libfdt-dev \
 	libftdi-dev \
 	libglib2.0-dev \
+	libgmp3-dev \
 	libhidapi-dev \
+	libmpc-dev \
 	libncurses5-dev \
 	libpixman-1-dev \
 	libssl-dev \
@@ -41,8 +43,10 @@ RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-p
 	make \
 	mtools \
 	netcat \
-	python3-pip \
+	ninja-build \
 	python3-crypto \
+	python3-cryptography \
+	python3-pip \
 	python3-pyelftools \
 	python3-serial \
 	rsync \
@@ -97,9 +101,6 @@ RUN git config --global user.email "op-tee@linaro.org"
 RUN export TERM=rxvt-256color
 
 WORKDIR /home/optee/qemu-optee
-
-# Do this in the users environment
-RUN python3 -m pip install --user pycryptodome
 
 RUN chmod a+x launch_optee.sh
 
