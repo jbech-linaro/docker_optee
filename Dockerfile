@@ -20,6 +20,7 @@ RUN  apt update && apt install -y  \
 	    bison \
 	    cscope \
 	    curl \
+	    device-tree-compiler \
 	    flex \
 	    gdisk \
 	    git \
