@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 MAINTAINER Joakim Bech (joakim.bech@linaro.org)
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -12,8 +12,8 @@ RUN apt-get update
 RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-packages install apt-utils
 
 RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-packages install \
-	android-tools-adb \
-	android-tools-fastboot \
+	adb \
+	acpica-tools \
 	autoconf \
 	automake \
 	bc \
@@ -24,10 +24,10 @@ RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-p
 	curl \
 	device-tree-compiler \
 	expect \
+	fastboot \
 	flex \
 	ftp-upload \
 	gdisk \
-	iasl \
 	libattr1-dev \
 	libcap-dev \
 	libfdt-dev \
@@ -44,11 +44,11 @@ RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-p
 	mtools \
 	netcat \
 	ninja-build \
-	python3-crypto \
 	python3-cryptography \
 	python3-pip \
 	python3-pyelftools \
 	python3-serial \
+	python-is-python3 \
 	rsync \
 	unzip \
 	uuid-dev \
@@ -60,7 +60,6 @@ RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-p
 	curl \
 	cpio \
 	git \
-	python \
 	wget
 
 # Download repo
