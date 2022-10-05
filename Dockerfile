@@ -30,6 +30,7 @@ RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-p
 	gdisk \
 	libattr1-dev \
 	libcap-dev \
+	libcap-ng-dev \
 	libfdt-dev \
 	libftdi-dev \
 	libglib2.0-dev \
