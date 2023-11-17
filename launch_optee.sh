@@ -1,9 +1,8 @@
 #!/bin/bash
-echo "This will take some time, since it's cloning lots of code ..."
-repo init -u https://github.com/OP-TEE/manifest.git
-repo sync -j3
+echo "Using the caches from the host"
+yes "" | repo init --partial-clone --reference /home/optee/reference https://github.com/OP-TEE/manifest.git 
+repo sync -j12
+ln -sf $HOME/toolchains $HOME/qemu-optee/toolchains
 
 echo "Now do this:"
-echo "$ cd build"
-echo "$ make -j2 toolchains"
-echo "$ make -j8 run"
+echo " cd build && time nice -n 19 make -j`nproc`" run

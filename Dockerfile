@@ -87,21 +87,20 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 USER optee
 
-RUN export USE_CCACHE=1
-RUN export CCACHE_DIR=~/.ccache
-RUN export CCACHE_UMASK=002
+ENV USE_CCACHE=1
+ENV CCACHE_DIR=/home/optee/.ccache
+ENV CCACHE_UMASK=002
 
 RUN mkdir -p /home/optee/buildroot_dl
-RUN export BR2_DL_DIR=~/buildroot_dl
+ENV BR2_DL_DIR=/home/optee/buildroot_dl
+ENV BR2_CCACHE_DIR=/home/optee/.cache/ccache
 
 # Configure git so repo won't complain later on
 RUN git config --global user.name "OP-TEE"
 RUN git config --global user.email "op-tee@linaro.org"
 
-RUN export TERM=rxvt-256color
+ENV TERM=rxvt-256color
 
 WORKDIR /home/optee/qemu-optee
 
 RUN chmod a+x launch_optee.sh
-
-WORKDIR /home/optee/qemu-optee

@@ -7,7 +7,7 @@ desktop. The steps to create the Docker image is as follows:
 ```bash
 $ git clone <this_repository>
 $ cd <this_repository>
-$ docker build -t optee .
+$ docker build -t optee-cached .
 ```
 It will take ~30 minutes or so to download everything, this is highly dependant
 on the speed to your ISP. Note that when repo are synching, it looks like
@@ -17,9 +17,13 @@ When all is done, you'll have a Docker image based on Ubuntu containing OP-TEE
 with all source code and toolchains necessary to build and test it out. Since
 the test spawns new `xterm` windows, we need to provide some extra parameters
 when running the Docker container. To run it, simply type:
-
 ```bash
-$ docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix optee
+$ ./run.sh optee-cached
+```
+
+When in the Docker environment follow the instructions and run:
+```bash
+$ ./launch_optee.sh
 ```
 
 In case it still doesn't work, you can grant X11 access to anyone by running `$
@@ -33,7 +37,7 @@ will need to type:
 # First find the name of the container, "silly_bhaskara" in my case.
 $ docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED STATUS                      PORTS               NAMES
-552fbaee5d73        optee               "/bin/bash"         4 hours ago                                             silly_bhaskara
+552fbaee5d73        optee-cached        "/bin/bash"         4 hours ago                                             silly_bhaskara
 
 # If not already running, you need to start the container.
 $ docker start silly_bhaskara
