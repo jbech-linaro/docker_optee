@@ -53,6 +53,7 @@ RUN apt-get -y --allow-downgrades --allow-remove-essential --allow-change-held-p
 	rsync \
 	unzip \
 	uuid-dev \
+  vim \
 	xdg-utils \
 	xterm \
 	xz-utils \
@@ -87,18 +88,18 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 USER optee
 
-RUN export USE_CCACHE=1
-RUN export CCACHE_DIR=~/.ccache
-RUN export CCACHE_UMASK=002
+env USE_CCACHE=1
+env CCACHE_DIR=/home/optee/.ccache
+env CCACHE_UMASK=002
 
 RUN mkdir -p /home/optee/buildroot_dl
-RUN export BR2_DL_DIR=~/buildroot_dl
+env BR2_DL_DIR=/home/optee/buildroot_dl
 
 # Configure git so repo won't complain later on
 RUN git config --global user.name "OP-TEE"
 RUN git config --global user.email "op-tee@linaro.org"
 
-RUN export TERM=rxvt-256color
+env TERM=rxvt-256color
 
 WORKDIR /home/optee/qemu-optee
 
