@@ -76,7 +76,7 @@ gotten cached and the `docker builder prune` clears that cache.
 
 ### Getting Root at the Docker Run Commandline
 After you execute the docker run command (as above) you will be put into a command 
-line where the toolchain and the QEMU environment will be built and run.  
+line where the toolchain and the QEMU environment will be built and run. 
 At the `/qemu-optee$ ` prompt if you run the `whoami` you will be `optee`.  
 If you need to be root (IDK: to add a package) the way to get that access is to 
 access the container again using `docker exec -it -u 0 <container_name> /bin/bash` where 
